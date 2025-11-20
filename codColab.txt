@@ -1,0 +1,32 @@
+REPO_ORIGINAL = "https://gitlab.com/leandro.pereira4/ferramentas-web-labs"
+
+# Nome do seu perfil do GitHub/GitLab
+SEU_NOME = ""
+
+# Email cadastrado do seu perfil do GitHub/GitLab
+SEU_EMAIL = "alissonfelipe29@gmail.com"
+
+# Repositório destino do GITHUB (precisa estar criado!)
+# Se usar token:
+# "https://<TOKEN>@github.com/SEU_USUARIO/SEU_REPO.git"
+# Exemplo REPO_DESTINO = "https://ggf_CpJB6Ecxy121J14ca4wh0eo3xu@github.com/AlissonFelCosta/web-tools-repository"
+REPO_DESTINO = ""
+
+import os
+
+!pip install git-filter-repo
+
+!git clone {REPO_ORIGINAL}
+
+os.chdir("ferramentas-web-labs")
+!curl -o git-filter-repo https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo
+!chmod +x git-filter-repo
+!./git-filter-repo --force \
+    --name-callback 'return b"{SEU_NOME}"' \
+    --email-callback 'return b"{SEU_EMAIL}"'
+!git remote remove origin
+!git remote add origin {REPO_DESTINO}
+!git push --force --all
+!git push --force --tags
+
+print("✔️ Pronto! Repositório reenviado para o GitHub com seu nome nos commits.")
